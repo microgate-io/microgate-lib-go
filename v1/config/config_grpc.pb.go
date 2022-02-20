@@ -4,10 +4,10 @@ package config
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ConfigServiceClient interface {
-	GetConfig(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetConfigResponse, error)
+	GetConfig(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetConfigResponse, error)
 }
 
 type configServiceClient struct {
@@ -30,7 +30,7 @@ func NewConfigServiceClient(cc grpc.ClientConnInterface) ConfigServiceClient {
 	return &configServiceClient{cc}
 }
 
-func (c *configServiceClient) GetConfig(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetConfigResponse, error) {
+func (c *configServiceClient) GetConfig(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetConfigResponse, error) {
 	out := new(GetConfigResponse)
 	err := c.cc.Invoke(ctx, "/ConfigService/GetConfig", in, out, opts...)
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *configServiceClient) GetConfig(ctx context.Context, in *emptypb.Empty, 
 // All implementations must embed UnimplementedConfigServiceServer
 // for forward compatibility
 type ConfigServiceServer interface {
-	GetConfig(context.Context, *emptypb.Empty) (*GetConfigResponse, error)
+	GetConfig(context.Context, *empty.Empty) (*GetConfigResponse, error)
 	mustEmbedUnimplementedConfigServiceServer()
 }
 
@@ -51,7 +51,7 @@ type ConfigServiceServer interface {
 type UnimplementedConfigServiceServer struct {
 }
 
-func (UnimplementedConfigServiceServer) GetConfig(context.Context, *emptypb.Empty) (*GetConfigResponse, error) {
+func (UnimplementedConfigServiceServer) GetConfig(context.Context, *empty.Empty) (*GetConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetConfig not implemented")
 }
 func (UnimplementedConfigServiceServer) mustEmbedUnimplementedConfigServiceServer() {}
@@ -68,7 +68,7 @@ func RegisterConfigServiceServer(s grpc.ServiceRegistrar, srv ConfigServiceServe
 }
 
 func _ConfigService_GetConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _ConfigService_GetConfig_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/ConfigService/GetConfig",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConfigServiceServer).GetConfig(ctx, req.(*emptypb.Empty))
+		return srv.(ConfigServiceServer).GetConfig(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
